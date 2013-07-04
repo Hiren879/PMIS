@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+    
+    <!--
+    Most controllers will use the ControllerClassNameHandlerMapping above, but
+    for the index controller we are using ParameterizableViewController, so we must
+    define an explicit mapping for it.
+    -->
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="index.htm">indexController</prop>
+                <prop key="submit.htm">submitController</prop>
+                <prop key="DisplayData.htm">displayController</prop>
+                <prop key="Lesson.htm">lessonController</prop>
+                <prop key="welcome.htm">welcomeController</prop>
+                <prop key="lessonDisplay.htm">lessonDisplayController</prop>
+                <prop key="issue.htm">issueController</prop>
+                <prop key="DisplayIsuue.htm">DisplayIssueController</prop>
+                
+                
+            </props>
+        </property>
+    </bean>
+    
+    <bean id = "methodNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+        <property name="paramName">
+            <value>cmdAction</value>
+        </property>
+    </bean>
+    
+    <bean name="submitController" class="com.fin.app.submitHandle" >
+        <property name="methodNameResolver">
+            <ref bean="methodNameResolver"/>
+        </property>
+    </bean>
+    
+    <!--
+    The index controller.
+    -->
+    <bean name="indexController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>index</value>
+        </property>
+    </bean>
+    
+    <bean name="displayController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>DisplayData</value>
+        </property>
+    </bean>
+    
+    <bean name="lessonController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>Lesson</value>
+        </property>
+    </bean>
+    
+    <bean name="lessonDisplayController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>lessonDisplay</value>
+        </property>
+    </bean>
+    
+    <bean name="welcomeController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>welcome</value>
+        </property>
+    </bean>
+    
+    <bean name="issueController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>issue</value>
+        </property>
+    </bean>
+    
+    <bean name="DisplayIssueController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <property name="viewName">
+            <value>DisplayIsuue</value>
+        </property>
+    </bean>
+    <!--
+    ViewResolver is used to map HTML pages to jsp pages for security and good programming practise 
+    -->
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/jsp/"
+          p:suffix=".jsp" />
+          
+</beans>
